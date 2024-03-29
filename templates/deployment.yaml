@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: driver-dashboard-deployment
+  namespace: f1-platform
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: driver-dashboard-app
+  template:
+    metadata:
+      labels:
+        app: driver-dashboard-app
+    spec:
+      containers:
+        - name: driver-dashboard-app
+          image: dash-driver-dashboard:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5005
+          livenessProbe:
+            tcpSocket:
+              port: 5005
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          readinessProbe:
+            tcpSocket:
+              port: 5005
+            initialDelaySeconds: 15
+            periodSeconds: 10 
