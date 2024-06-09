@@ -2,7 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: driver-dashboard-deployment
-  namespace: f1-platform
+  labels:
+    app: f1-platform
+    component: dash
 spec:
   replicas: 1
   selector:
@@ -15,8 +17,8 @@ spec:
     spec:
       containers:
         - name: driver-dashboard-app
-          image: dash-driver-dashboard:latest
-          imagePullPolicy: IfNotPresent
+          image: docker.io/azawalich/formula-1-fullstack-mlops:dash-driver-dashboard-latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 5005
           livenessProbe:

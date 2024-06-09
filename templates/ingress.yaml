@@ -1,16 +1,20 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-    name: driver-dashboard-ingress
-    namespace: f1-platform
-    annotations:
-      kubernetes.io/ingress.class: nginx
-      nginx.ingress.kubernetes.io/rewrite-target: /
-      nginx.ingress.kubernetes.io/proxy-body-size: "0"
+  name: driver-dashboard-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    kubernetes.io/ingress.class: "nginx"
+  labels:
+    app: f1-platform
+    component: dash
 spec:
-  ingressClassName: nginx
+  tls:
+    - hosts:
+      - academy.f1-platform.zawalich.pl
+      secretName: echo-tls
   rules:
-    - host: academy.f1-platform.k8s.io
+    - host: academy.f1-platform.zawalich.pl
       http:
         paths:
           - path: /
